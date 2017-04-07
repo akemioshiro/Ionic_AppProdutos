@@ -1,24 +1,21 @@
 angular.module('starter.controllers', [])
 
 
-.controller('ProdutoController', function($scope, $ionicModal) {
-  $scope.produtos = [
-    { titulo: 'Livro de IONIC', valor: 50.99, publicar:true },
-    { titulo: 'Livro de Angular JS', valor: 45.99, publicar:true },
-    { titulo: 'Livro de ASP.NET MVC', valor: 30.99, publicar:true },
-    { titulo: 'Livro de Java', valor: 32.99, publicar:true },
-    { titulo: 'Livro de Android', valor: 50.99, publicar:true },
-    { titulo: 'Livro de SQL', valor: 20.00, publicar:true }
-  ];
 
-  $ionicModal.fromTemplateUrl('templates/adicionar.html', {
-  	scope: $scope
+.controller('ProdutoController', function($scope,$ionicModal) {
+  $scope.produtos = [
+    { titulo: 'Livro de Ionic', valor: 50.99, publicar:true },
+    { titulo: 'Livro de Angular JS', valor: 40.99, publicar:true },
+    { titulo: 'Livro de Cordova', valor: 30.99, publicar:true }
+    
+  ];
+  $ionicModal.fromTemplateUrl('templates/adicionar.html',{
+  	scope:$scope
   }).then(function(modal){
   	$scope.modal = modal;
   });
 
-  $scope.abreAdicionar = function()
-  {
+  $scope.abreAdicionar = function(){
   	$scope.editando = false;
   	$scope.Produto.titulo = "";
   	$scope.Produto.valor = "";
@@ -26,25 +23,19 @@ angular.module('starter.controllers', [])
   	$scope.modal.show();
   }
 
-  $scope.addProduto = function(Produto)
-  {
-  	$scope.produtos.push({
-  		titulo: Produto.titulo, valor: Produto.valor, publicar:Produto.publicar
-  	});
+  $scope.addProduto = function(Produto){
+  	$scope.produtos.push({titulo: Produto.titulo, valor: Produto.valor, publicar:Produto.publicar});
   	Produto.titulo = "";
   	Produto.valor = "";
   	Produto.publicar = false;
   	$scope.modal.hide();
-  };
+  }
 
   $scope.Produto = {};
-
   $scope.editando = false;
-
   var auxProdutoEditar;
 
-  $scope.editarProduto = function(ProdutoEditar)
-  {
+  $scope.editarProduto = function(ProdutoEditar){
   	$scope.editando = true;
   	$scope.Produto.titulo = ProdutoEditar.titulo;
   	$scope.Produto.valor = ProdutoEditar.valor;
@@ -53,14 +44,24 @@ angular.module('starter.controllers', [])
   	$scope.modal.show();
   };
 
-  $scope.salvarProduto = function(Produto)
-  {
+  $scope.salvarProduto = function(Produto){
   	auxProdutoEditar.titulo = Produto.titulo;
   	auxProdutoEditar.valor = Produto.valor;
   	auxProdutoEditar.publicar = Produto.publicar;
   	$scope.modal.hide();
   };
 
+  $scope.deletarProduto = function(Produto){
+    for(var index in $scope.produtos){
+      var aux = $scope.produtos[index];
+      if(Produto === aux){
+        $scope.produtos.splice(index,1);
+      }
+    }
+  };
+
+  $scope.deletando = false;
+
 
 })
-	
+
